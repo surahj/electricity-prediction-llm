@@ -3,8 +3,13 @@ services:
     name: electricity-consumption-predictor
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: python src/app.py
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: python3 src/app.py
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.12
+      - key: GRADIO_SERVER_NAME
+        value: 0.0.0.0
+      - key: GRADIO_SERVER_PORT
+        value: 7860
+    healthCheckPath: /

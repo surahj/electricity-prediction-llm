@@ -364,19 +364,31 @@ class ElectricityPredictorApp:
 
 def main():
     """Main function to launch the application."""
-    app = ElectricityPredictorApp()
-    interface = app.create_interface()
+    try:
+        app = ElectricityPredictorApp()
+        interface = app.create_interface()
 
-    # Get port from environment variable (for Render deployment)
-    port = int(os.environ.get("PORT", 7860))
+        # Get port from environment variable (for Render deployment)
+        port = int(os.environ.get("PORT", 7860))
 
-    # Launch the interface
-    interface.launch(
-        server_name="0.0.0.0",  # Allow external connections
-        server_port=port,  # Use environment port
-        share=False,  # Don't create public link
-        debug=False,  # Disable debug mode for production
-    )
+        print(f"Starting server on port {port}")
+        print(f"Server name: 0.0.0.0")
+
+        # Launch the interface
+        interface.launch(
+            server_name="0.0.0.0",  # Allow external connections
+            server_port=port,  # Use environment port
+            share=False,  # Don't create public link
+            debug=False,  # Disable debug mode for production
+            show_error=True,  # Show errors in production
+            quiet=False,  # Show startup messages
+        )
+    except Exception as e:
+        print(f"Error starting application: {e}")
+        import traceback
+
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
