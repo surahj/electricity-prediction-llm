@@ -366,7 +366,17 @@ def main():
     """Main function to launch the application."""
     app = ElectricityPredictorApp()
     interface = app.create_interface()
-    interface.launch(share=False, server_name="0.0.0.0", server_port=7860)
+
+    # Get port from environment variable (for Render deployment)
+    port = int(os.environ.get("PORT", 7860))
+
+    # Launch the interface
+    interface.launch(
+        server_name="0.0.0.0",  # Allow external connections
+        server_port=port,  # Use environment port
+        share=False,  # Don't create public link
+        debug=False,  # Disable debug mode for production
+    )
 
 
 if __name__ == "__main__":
